@@ -34,7 +34,8 @@ echo "Connexion en cours…"
 # on récupère l'url du portail
 url=$(wget --max-redirect 0 -O - perdu.com 2>&1 | grep hotspot.wifi.sfr.fr | sed 's/.*\(https[^ ]*\).*/\1/')
 if [ -z "$url" ]; then
-    echo "Erreur lors de la récupération de l'url de la page de connexion. Etes vous connecté à un SFR WiFi ?" >&2
+    echo "Erreur lors de la récupération de l'url de la page de connexion." >&2
+    echo "Etes vous connecté à un SFR WiFi ?" >&2
     exit 1
 fi
 
@@ -66,10 +67,11 @@ fi
 #cat $tmp
 urlConfirm=$(grep 'window.location' $tmp | sed 's#^.*\(http://[^ ]*\)";.*#\1#')
 rm $tmp
-wget -q $urlConfirm 2>&1 > /dev/null
+wget -q $urlConfirm -O /dev/null 2>&1 > /dev/null
 
 if [ $? -ne 0 ]; then
     echo "Erreur lors de la connexion. Vérifiez que vos identifiants sont correctes." >&2
+    exit 2
 fi
 
 # on vérifie la connexion
