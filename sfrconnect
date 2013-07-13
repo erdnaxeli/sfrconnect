@@ -9,7 +9,7 @@ passwd=yourpasswd
 # quelques fonctions
 
 testPing () {
-    title=$(wget -q -O - perdu.com | grep title | sed "s#.*<title>\(.*\)</title>.*#\1#")
+    title=$(wget -q --timeout 5 -O - perdu.com | grep title | sed "s#.*<title>\(.*\)</title>.*#\1#")
     [ "$title" = "Vous Etes Perdu ?" ]
 }
 
